@@ -80,9 +80,6 @@ public class LoginForm extends JDialog{
         }catch (Exception e){
             e.printStackTrace();
         }
-
-
-
         return user;
     }
 }

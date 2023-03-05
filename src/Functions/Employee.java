@@ -1,3 +1,5 @@
+package Functions;
+
 import net.proteanit.sql.DbUtils;
 
 import javax.swing.*;
@@ -30,8 +32,8 @@ public class Employee {
     PreparedStatement pst;
     public void connect(){
         try{
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost/g11project","root","");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost/mystore","root","");
             System.out.println("Success");
         }
         catch (ClassNotFoundException | SQLException e){
@@ -41,7 +43,7 @@ public class Employee {
 
     void table_load(){
         try{
-            pst = con.prepareStatement("select * from employee");
+            pst = con.prepareStatement("select * from users");
             ResultSet rs = pst.executeQuery();
             table1.setModel(DbUtils.resultSetToTableModel(rs));
         }

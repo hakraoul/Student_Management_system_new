@@ -1,3 +1,5 @@
+package Functions;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -78,7 +80,7 @@ public class RegistrationForm extends JDialog {
         }
     }
     public User user;
-    public User addUserToDatabase (String name,String email, String phone, String address, String password ){
+    public User addUserToDatabase (String name, String email, String phone, String address, String password ){
         User user = null;
         final String DB_URL = "jdbc:mysql://localhost/mystore";
         final String USERNAME = "root";

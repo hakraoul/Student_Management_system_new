@@ -1,3 +1,5 @@
+package Functions;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,7 +12,7 @@ public class infoPanel extends JDialog{
     private JPanel infoPanel;
 
     public infoPanel(JFrame parent){
-        setTitle("User Info");
+        setTitle("Functions.User Info");
         setContentPane(infoPanel);
         setMinimumSize(new Dimension(450,474));
         setModal(true);
@@ -31,9 +33,6 @@ public class infoPanel extends JDialog{
             emailLable.setText(user.email);
             phoneLable.setText(user.phone);
             addressLable.setText(user.address);
-
-
-
 
         }
         else{

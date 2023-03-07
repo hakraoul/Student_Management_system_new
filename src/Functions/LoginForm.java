@@ -1,5 +1,7 @@
 package Functions;
 
+import homePanel.Employee_Managment.src.Home;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -31,6 +33,8 @@ public class LoginForm extends JDialog{
                 user = getAuthenticatedUser(email,password);
                 if(user!=null){
                     dispose();
+                    //go to other tap if user found
+                    Home.main(null);
                 }
                 else{
                     JOptionPane.showMessageDialog(LoginForm.this,

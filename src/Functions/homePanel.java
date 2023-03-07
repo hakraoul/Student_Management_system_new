@@ -23,7 +23,8 @@ public class homePanel extends JDialog{
     loginButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            infoPanel infoObj = new infoPanel(null);
+            LoginForm loginOBJ = new LoginForm(null);
+            dispose();
 
         }
     });

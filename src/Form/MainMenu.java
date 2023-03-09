@@ -1,10 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package Form;
 
+import Functions.LoginForm;
 import Functions.homePanel;
+import multiUserLogin.Login;
 
 import java.awt.Color;
 import java.util.Objects;
@@ -422,7 +420,9 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void loginPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginPanelMouseClicked
         // TODO add your handling code here:
-        homePanel homepanel = new homePanel(null);
+        //homePanel homepanel = new homePanel(null);
+        Login loginObj = new Login();
+
     }//GEN-LAST:event_loginPanelMouseClicked
 
     private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked

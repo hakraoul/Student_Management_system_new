@@ -581,9 +581,16 @@ public class Home extends javax.swing.JFrame {
             pst.setString(3,jTextField3.getText());
             pst.setString(4,jTextField4.getText());
             pst.setBytes(5, person_image);
-            
-            jRadioButton1.setActionCommand("Male");
-            jRadioButton2.setActionCommand("Female");
+
+//            jRadioButton1.setActionCommand("Male");
+//            jRadioButton2.setActionCommand("Female");
+//            pst.setString(10,jRadioButton1.setActionCommand());
+            if(jRadioButton1.isSelected()){
+                pst.setString(10,"Male");
+            }
+            else if(jRadioButton2.isSelected()){
+                pst.setString(10,"Female");
+            }
             
             pst.setString(6,buttonGroup1.getSelection().getActionCommand());
             pst.setString(7,jTextField5.getText());
@@ -641,18 +648,18 @@ public class Home extends javax.swing.JFrame {
                 String add1 = rs.getString("id");
                 jTextField1.setText(add1);
                 String add2 = rs.getString("Name");
-                jTextField1.setText(add2);
+                jTextField2.setText(add2);
                 String add3 = rs.getString("Surname");
-                jTextField1.setText(add3);
+                jTextField3.setText(add3);
                 
                 String add4 = rs.getString("Age");
-                jTextField1.setText(add4);
+                jTextField4.setText(add4);
                 String add5 = rs.getString("Department");
-                jTextField1.setText(add5);
+                jTextField5.setText(add5);
                 String add6 = rs.getString("Shirt");
-                jTextField1.setText(add6);
+                jTextField6.setText(add6);
                 String add7 = rs.getString("Division");
-                jTextField1.setText(add7);
+                jTextField7.setText(add7);
             }
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e);

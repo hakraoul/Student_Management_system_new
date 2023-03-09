@@ -4,7 +4,6 @@
  */
 package multiUserLogin;
 
-import Functions.LoginForm;
 import Functions.User;
 import homePanel.Employee_Managment.src.Home;
 
@@ -15,8 +14,13 @@ import java.util.Objects;
 
 
 public class Login extends javax.swing.JFrame {
+
+    /**
+     * Creates new form Login
+     */
     public Login() {
         initComponents();
+        setVisible(true);
     }
 
     /**
@@ -155,7 +159,7 @@ public class Login extends javax.swing.JFrame {
         String email = tfEmail.getText();
         String password = tfPassword.getText();
 
-        user = getAuthenticatedAdmin(email,password);
+        user = getAuthenticatedUser(email,password);
         if(user!=null){
             dispose();
             //go to user panel if user found
@@ -174,22 +178,6 @@ public class Login extends javax.swing.JFrame {
     }
 
     public static void main(String args[]) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Login().setVisible(true);
@@ -197,32 +185,31 @@ public class Login extends javax.swing.JFrame {
         });
     }
 
-    public Useracc user;
-    private Useracc getAuthenticatedAdmin(String email, String password) {
-        Useracc user = null;
+    public Functions.User user;
+    private Functions.User getAuthenticatedUser(String email, String password) {
+        Functions.User user = null;
 
-        final String DB_URL = "jdbc:mysql://localhost/g11project";
+        final String DB_URL = "jdbc:mysql://localhost/mystore";
         final String USERNAME = "root";
         final String PASSWORD = "";
 
         try{
-            //Connection conn = DriverManager.getConnection(DB_URL, USERNAME,PASSWORD);
-
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/g11project","root","");
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME,PASSWORD);
             //Connection to database successfull...
 
             Statement stmt = conn.createStatement();
-            String sql = "SELECT * FROM adminacc WHERE email=? AND password=?";
+            String sql = "SELECT * FROM users WHERE email=? AND password=?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1,email);
             preparedStatement.setString(2,password);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()){
-                user = new Useracc();
-                //user.name = resultSet.getString("username");
+                user = new User();
+                user.name = resultSet.getString("name");
                 user.email = resultSet.getString("email");
+                user.phone = resultSet.getString("phone");
+                user.address = resultSet.getString("address");
                 user.password = resultSet.getString("password");
             }
             stmt.close();
@@ -231,7 +218,6 @@ public class Login extends javax.swing.JFrame {
         }catch (Exception e){
             e.printStackTrace();
         }
-
         return user;
     }
 

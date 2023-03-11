@@ -4,8 +4,8 @@
  */
 package multiUserLogin;
 
-import Functions.User;
-import homePanel.Employee_Managment.src.Home;
+import Crud_kakada.Home_Admin;
+import Employee.EmployeeMain;
 
 import javax.swing.*;
 import java.sql.*;
@@ -38,7 +38,7 @@ public class Login extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         tfEmail = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        tfPassword = new javax.swing.JTextField();
+        tfPassword = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
@@ -161,15 +161,26 @@ public class Login extends javax.swing.JFrame {
 
         user = getAuthenticatedUser(email,password);
         if(user!=null){
+
             dispose();
-            //go to user panel if user found
-            Home.main(null);
+            //If found in user table go to Employee panel
+            EmployeeMain.main(null);
+            EmployeeMain.setData(email,password);
+
         }
         else{
-            JOptionPane.showMessageDialog(Login.this,
-                    "Email or Password Invalid",
-                    "Try Again!!!",
-                    JOptionPane.ERROR_MESSAGE);
+            user = getAuthenticatedAdmin(email,password);
+            if(user!=null){
+                dispose();
+                //go to user panel if user found
+                Home_Admin.main(null);
+            }
+            else{
+                JOptionPane.showMessageDialog(Login.this,
+                        "Email or Password Invalid",
+                        "Try Again!!!",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
@@ -185,11 +196,12 @@ public class Login extends javax.swing.JFrame {
         });
     }
 
-    public Functions.User user;
-    private Functions.User getAuthenticatedUser(String email, String password) {
-        Functions.User user = null;
+    //For admin table
+    public User user;
+    private User getAuthenticatedUser(String email, String password) {
+        User admin = null;
 
-        final String DB_URL = "jdbc:mysql://localhost/mystore";
+        final String DB_URL = "jdbc:mysql://localhost/oop";
         final String USERNAME = "root";
         final String PASSWORD = "";
 
@@ -198,19 +210,14 @@ public class Login extends javax.swing.JFrame {
             //Connection to database successfull...
 
             Statement stmt = conn.createStatement();
-            String sql = "SELECT * FROM users WHERE email=? AND password=?";
+            String sql = "SELECT * FROM user WHERE email='"+email+"' AND password= '"+password+"'";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1,email);
-            preparedStatement.setString(2,password);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if(resultSet.next()){
-                user = new User();
-                user.name = resultSet.getString("name");
-                user.email = resultSet.getString("email");
-                user.phone = resultSet.getString("phone");
-                user.address = resultSet.getString("address");
-                user.password = resultSet.getString("password");
+                admin = new User();
+                admin.email = resultSet.getString("email");
+                admin.password = resultSet.getString("password");
             }
             stmt.close();
             conn.close();
@@ -218,11 +225,41 @@ public class Login extends javax.swing.JFrame {
         }catch (Exception e){
             e.printStackTrace();
         }
-        return user;
+        return admin;
     }
 
     //function to search for users
+    private User getAuthenticatedAdmin(String email, String password) {
+        User admin = null;
 
+        final String DB_URL = "jdbc:mysql://localhost/oop";
+        final String USERNAME = "root";
+        final String PASSWORD = "";
+
+        try{
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME,PASSWORD);
+            //Connection to database successfull...
+
+            Statement stmt = conn.createStatement();
+            String sql = "SELECT * FROM admin WHERE email='"+email+"' AND password= '"+password+"'";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+//            preparedStatement.setString(1,email);
+//            preparedStatement.setString(2,password);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                admin = new User();
+                admin.email = resultSet.getString("email");
+                admin.password = resultSet.getString("password");
+            }
+            stmt.close();
+            conn.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return admin;
+    }
 
     // Variables declaration - do not modify
     private multiUserLogin.bgGradient bgGradient1;

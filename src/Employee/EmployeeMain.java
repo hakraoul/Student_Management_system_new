@@ -6,6 +6,8 @@ import java.sql.*;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+//Mail
+import javax.mail.MessagingException;
 
 
 public class EmployeeMain extends javax.swing.JFrame {
@@ -81,7 +83,7 @@ public class EmployeeMain extends javax.swing.JFrame {
         jLabel25 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextPane2 = new javax.swing.JTextPane();
-        tfDepartment = new javax.swing.JTextField();
+        tfSubject = new javax.swing.JTextField();
         tfDurattion = new javax.swing.JTextField();
         btnSubmit = new javax.swing.JButton();
         permissionpanel = new javax.swing.JPanel();
@@ -566,7 +568,7 @@ public class EmployeeMain extends javax.swing.JFrame {
         jLabel12.setText("Username");
 
         jLabel23.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel23.setText("Department");
+        jLabel23.setText("Suject");
 
         jLabel24.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel24.setText("Duration");
@@ -578,14 +580,18 @@ public class EmployeeMain extends javax.swing.JFrame {
         });
 
         jLabel25.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel25.setText("Reason");
+        jLabel25.setText("Message");
 
         jScrollPane2.setViewportView(jTextPane2);
 
         btnSubmit.setText("submit");
         btnSubmit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSubmitMouseClicked(evt);
+                try {
+                    btnSubmitMouseClicked(evt);
+                } catch (MessagingException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -606,7 +612,7 @@ public class EmployeeMain extends javax.swing.JFrame {
                                                 .addGap(103, 103, 103)
                                                 .addGroup(permissionFormPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(tfUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(tfDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(tfSubject, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(tfDurattion, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addContainerGap(118, Short.MAX_VALUE))
@@ -621,7 +627,7 @@ public class EmployeeMain extends javax.swing.JFrame {
                                 .addGap(48, 48, 48)
                                 .addGroup(permissionFormPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel23)
-                                        .addComponent(tfDepartment, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(tfSubject, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(55, 55, 55)
                                 .addGroup(permissionFormPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel24)
@@ -946,14 +952,22 @@ public class EmployeeMain extends javax.swing.JFrame {
         permissionpanel.setVisible(true);
         changePWForm.setVisible(false);
         changepasswordPanel.setVisible(false);
+
+        tfUsername.setText(user.username);
+
     }
 
     private void tfUsernameActionPerformed(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
     }
 
-    private void btnSubmitMouseClicked(java.awt.event.MouseEvent evt) {
+    private void btnSubmitMouseClicked(java.awt.event.MouseEvent evt) throws MessagingException {
         // TODO add your handling code here:
+        String reason = jTextPane2.getText();
+        String subject = tfSubject.getText();
+        String duration = tfDurattion.getText();
+        String name = tfUsername.getText();
+        EmailPermission.main("curryhak12@gmail.com",reason,subject,duration,name);
     }
 
     private void btnCancelChangeActionPerformed(java.awt.event.ActionEvent evt) {
@@ -988,17 +1002,13 @@ public class EmployeeMain extends javax.swing.JFrame {
                     e.printStackTrace();
                 }
             }else{
-                JOptionPane.showMessageDialog(this,"New password don't match...");
-                tfoldpassword.setText("");
-                tfNewpassword.setText("");
+                JOptionPane.showMessageDialog(this,"Please confirm password again...");
                 tfconfirmNewPw.setText("");
             }
         }
         else{
             JOptionPane.showMessageDialog(this,"Old password don't match...");
             tfoldpassword.setText("");
-            tfNewpassword.setText("");
-            tfconfirmNewPw.setText("");
         }
     }
 
@@ -1024,6 +1034,8 @@ public class EmployeeMain extends javax.swing.JFrame {
         user.password = password;
     }
     public static User user;
+
+
 
     // Variables declaration - do not modify
     private javax.swing.JPanel HomePane;
@@ -1084,7 +1096,7 @@ public class EmployeeMain extends javax.swing.JFrame {
     private javax.swing.JPanel permissionpanel;
     private javax.swing.JLabel positionLabel;
     private javax.swing.JLabel salaryLabel;
-    private javax.swing.JTextField tfDepartment;
+    private javax.swing.JTextField tfSubject;
     private javax.swing.JTextField tfDurattion;
     private javax.swing.JTextField tfoldpassword;
     private javax.swing.JTextField tfNewpassword;
